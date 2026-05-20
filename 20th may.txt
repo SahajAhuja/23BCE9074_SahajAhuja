@@ -1,0 +1,93 @@
+USE vitcampus;
+
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) UNIQUE NOT NULL,
+    FirstName varchar(255) NOT NULL,
+    Age int
+);
+
+DESC Persons;
+
+INSERT INTO Persons VALUES (101,'Sangwan','Aaditya',NULL);
+
+SELECT * FROM Persons;
+
+ALTER TABLE Persons
+ADD UNIQUE (Age);
+
+-- MySQL automatically creates constraint names
+ALTER TABLE Persons
+DROP INDEX Age;
+
+DROP TABLE Persons;
+
+CREATE TABLE Persons (
+    Age int NOT NULL,
+    CHECK (Age >= 18 AND Age <= 23)
+);
+
+INSERT INTO Persons VALUES (21);
+
+CREATE TABLE Persons1 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255) DEFAULT 'Coimbatore'
+);
+
+DESC Persons1;
+
+CREATE TABLE Products (
+    pid int PRIMARY KEY,
+    pname varchar(100) NOT NULL,
+    prefNo int NOT NULL UNIQUE
+);
+
+DESC Products;
+
+INSERT INTO Products VALUES (102,'Furniture',19930);
+
+SELECT * FROM Products;
+
+ALTER TABLE Persons
+ADD COLUMN ID int;
+
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+
+ALTER TABLE Persons
+DROP PRIMARY KEY;
+
+DROP TABLE Products;
+
+CREATE TABLE Category (
+    cid int PRIMARY KEY,
+    cname varchar(100) NOT NULL
+);
+
+INSERT INTO Category VALUES
+(101,'Electronics'),
+(102,'Home App');
+
+SELECT * FROM Category;
+
+CREATE TABLE Products (
+    pid int PRIMARY KEY,
+    pname varchar(100) NOT NULL,
+    cid int,
+    FOREIGN KEY (cid) REFERENCES Category(cid)
+);
+
+DESC Products;
+
+-- This will fail if products reference cid=101
+DELETE FROM Category
+WHERE cid = 101;
+
+-- Correct insert statement
+INSERT INTO Products VALUES
+(504,'Power Bank Samsung',101);
+
+SELECT * FROM Products;
