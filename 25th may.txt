@@ -1,0 +1,100 @@
+// show all databases
+show dbs
+
+// create and use database
+use collegeDB
+
+// check current database
+db
+
+// create collection
+db.createCollection("students")
+
+// show collections
+show collections
+
+// insert one document
+db.students.insertOne({
+    name: "Aaditya",
+    age: 20,
+    branch: "AI & ML"
+})
+
+// insert multiple documents
+db.students.insertMany([
+    {
+        name: "Rahul",
+        age: 21,
+        branch: "CSE"
+    },
+    {
+        name: "Priya",
+        age: 22,
+        branch: "ECE"
+    }
+])
+
+// show all documents
+db.students.find()
+
+// show documents in pretty format
+db.students.find().pretty()
+
+// find specific document
+db.students.find({ name: "Rahul" })
+
+// update one document
+db.students.updateOne(
+    { name: "Rahul" },
+    {
+        $set: {
+            age: 23
+        }
+    }
+)
+
+// update many documents
+db.students.updateMany(
+    { branch: "CSE" },
+    {
+        $set: {
+            status: "Active"
+        }
+    }
+)
+
+// delete one document
+db.students.deleteOne({ name: "Priya" })
+
+// delete many documents
+db.students.deleteMany({ age: 23 })
+
+// remove document (old method)
+db.students.remove({ name: "Rahul" })
+
+// create index
+db.students.createIndex({ name: 1 })
+
+// aggregation example
+db.students.aggregate([
+    {
+        $group: {
+            _id: "$branch",
+            total: { $sum: 1 }
+        }
+    }
+])
+
+// save document
+db.students.save({
+    _id: ObjectId(),
+    name: "Anuj",
+    age: 21,
+    course: "MCA"
+})
+
+// drop collection
+db.students.drop()
+
+// drop database
+db.dropDatabase()
