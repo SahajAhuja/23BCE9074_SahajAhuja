@@ -1,0 +1,1088 @@
+﻿MongoDB $exists Operator
+
+1. Display All Documents
+use vit
+
+switched to db vit
+
+db["products"].find()
+
+{
+    _id: 1,
+    name: 'xPhone',
+    price: 799,
+    releaseDate: 2011-05-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 6.5,
+        cpu: 2.66
+    },
+    color: [
+        'white',
+        'black'
+    ],
+    storage: [
+        64,
+        128,
+        256
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    price: 899,
+    releaseDate: 2011-09-01T00:00:00.000Z,
+    spec: {
+        ram: 16,
+        screen: 9.5,
+        cpu: 3.66
+    },
+    color: [
+        'white',
+        'black',
+        'purple'
+    ],
+    storage: [
+        128,
+        256,
+        512
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    price: 899,
+    releaseDate: 2015-01-14T00:00:00.000Z,
+    spec: {
+        ram: 12,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'blue'
+    ],
+    storage: [
+        16,
+        64,
+        128
+    ]
+}
+{
+    _id: 4,
+    name: 'SmartPad',
+    price: 699,
+    releaseDate: 2020-05-14T00:00:00.000Z,
+    spec: {
+        ram: 8,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256,
+        1024
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: 599,
+    releaseDate: 2022-09-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256
+    ]
+}
+{
+    _id: 6,
+    name: 'xWidget',
+    spec: {
+        ram: 64,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'black'
+    ],
+    storage: [
+        1024
+    ]
+}
+{
+    _id: 7,
+    name: 'xReader',
+    price: null,
+    spec: {
+        ram: 64,
+        screen: 6.7,
+        cpu: 3.66
+    },
+    color: [
+        'black',
+        'white'
+    ],
+    storage: [
+        128
+    ]
+}
+
+
+2. Find Documents Where price Field Exists
+db.products.find({
+      price: {
+            $exists: true
+      }
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    price: 799,
+    releaseDate: 2011-05-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 6.5,
+        cpu: 2.66
+    },
+    color: [
+        'white',
+        'black'
+    ],
+    storage: [
+        64,
+        128,
+        256
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    price: 899,
+    releaseDate: 2011-09-01T00:00:00.000Z,
+    spec: {
+        ram: 16,
+        screen: 9.5,
+        cpu: 3.66
+    },
+    color: [
+        'white',
+        'black',
+        'purple'
+    ],
+    storage: [
+        128,
+        256,
+        512
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    price: 899,
+    releaseDate: 2015-01-14T00:00:00.000Z,
+    spec: {
+        ram: 12,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'blue'
+    ],
+    storage: [
+        16,
+        64,
+        128
+    ]
+}
+{
+    _id: 4,
+    name: 'SmartPad',
+    price: 699,
+    releaseDate: 2020-05-14T00:00:00.000Z,
+    spec: {
+        ram: 8,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256,
+        1024
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: 599,
+    releaseDate: 2022-09-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256
+    ]
+}
+{
+    _id: 7,
+    name: 'xReader',
+    price: null,
+    spec: {
+        ram: 64,
+        screen: 6.7,
+        cpu: 3.66
+    },
+    color: [
+        'black',
+        'white'
+    ],
+    storage: [
+        128
+    ]
+}
+
+
+3. Find Documents Where price Exists and is Greater Than 699
+db.products.find({
+      price: {
+            $exists: true,
+            $gt: 699
+      }
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    price: 799,
+    releaseDate: 2011-05-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 6.5,
+        cpu: 2.66
+    },
+    color: [
+        'white',
+        'black'
+    ],
+    storage: [
+        64,
+        128,
+        256
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    price: 899,
+    releaseDate: 2011-09-01T00:00:00.000Z,
+    spec: {
+        ram: 16,
+        screen: 9.5,
+        cpu: 3.66
+    },
+    color: [
+        'white',
+        'black',
+        'purple'
+    ],
+    storage: [
+        128,
+        256,
+        512
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    price: 899,
+    releaseDate: 2015-01-14T00:00:00.000Z,
+    spec: {
+        ram: 12,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'blue'
+    ],
+    storage: [
+        16,
+        64,
+        128
+    ]
+}
+
+
+
+4. Find Documents Where price Field Does Not Exist
+db.products.find({
+      price: {
+            $exists: false
+      }
+})
+
+{
+    _id: 6,
+    name: 'xWidget',
+    spec: {
+        ram: 64,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'black'
+    ],
+    storage: [
+        1024
+    ]
+}
+
+MongoDB $type Operator
+
+5. Drop Existing Collection
+db.products.drop()
+true
+
+
+6. Insert Documents for $type Operator
+db.products.insertMany([
+{ "_id" : 1, "name" : "xPhone", "price" : "799", "releaseDate" : ISODate("2011-05-14T00:00:00Z"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66 }, "color" : [ "white", "black" ], "storage" : [ 64, 128, 256 ] },
+
+{ "_id" : 2, "name" : "xTablet", "price" : NumberInt(899), "releaseDate" : ISODate("2011-09-01T00:00:00Z"), "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66 }, "color" : [ "white", "black", "purple" ], "storage" : [ 128, 256, 512 ] },
+
+{ "_id" : 3, "name" : "SmartTablet", "price" : NumberLong(899), "releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : { "ram" : 12, "screen" : 9.7, "cpu" : 3.66 }, "color" : [ "blue" ], "storage" : [ 16, 64, 128 ] },
+
+{ "_id" : 4, "name" : "SmartPad", "price" : [599,699,799], "releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec" : { "ram" : 8, "screen" : 9.7, "cpu" : 1.66 }, "color" : [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256, 1024 ] },
+
+{ "_id" : 5, "name" : "SmartPhone", "price" : ["599",699], "releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : { "ram" : 4, "screen" : 9.7, "cpu" : 1.66 }, "color" : [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256 ] },
+
+{ "_id" : 6, "name" : "xWidget", "spec" : { "ram" : 64, "screen" : 9.7, "cpu" : 3.66 }, "color" : [ "black" ], "storage" : [ 1024 ] }
+])
+
+{
+    acknowledged: true,
+    insertedIds: {
+        '0': 1,
+        '1': 2,
+        '2': 3,
+        '3': 4,
+        '4': 5,
+        '5': 6
+    }
+}
+
+
+
+7. Find Documents Where price is String Type
+db.products.find({
+      price: {
+            $type: "string"
+      }
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    price: '799',
+    releaseDate: 2011-05-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 6.5,
+        cpu: 2.66
+    },
+    color: [
+        'white',
+        'black'
+    ],
+    storage: [
+        64,
+        128,
+        256
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: [
+        '599',
+        699
+    ],
+    releaseDate: 2022-09-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256
+    ]
+}
+
+
+
+8. Find Documents Where price is Number Type
+db.products.find({
+      price: {
+            $type: "number"
+      }
+})
+
+{
+    _id: 2,
+    name: 'xTablet',
+    price: 899,
+    releaseDate: 2011-09-01T00:00:00.000Z,
+    spec: {
+        ram: 16,
+        screen: 9.5,
+        cpu: 3.66
+    },
+    color: [
+        'white',
+        'black',
+        'purple'
+    ],
+    storage: [
+        128,
+        256,
+        512
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    price: 899,
+    releaseDate: 2015-01-14T00:00:00.000Z,
+    spec: {
+        ram: 12,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'blue'
+    ],
+    storage: [
+        16,
+        64,
+        128
+    ]
+}
+{
+    _id: 4,
+    name: 'SmartPad',
+    price: [
+        599,
+        699,
+        799
+    ],
+    releaseDate: 2020-05-14T00:00:00.000Z,
+    spec: {
+        ram: 8,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256,
+        1024
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: [
+        '599',
+        699
+    ],
+    releaseDate: 2022-09-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256
+    ]
+}
+
+
+
+9. Find Documents Where price is Array Type
+db.products.find({
+      price: {
+            $type: "array"
+      }
+})
+
+{
+    _id: 4,
+    name: 'SmartPad',
+    price: [
+        599,
+        699,
+        799
+    ],
+    releaseDate: 2020-05-14T00:00:00.000Z,
+    spec: {
+        ram: 8,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256,
+        1024
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: [
+        '599',
+        699
+    ],
+    releaseDate: 2022-09-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256
+    ]
+}
+
+
+
+10. Find Documents Where price is Number or String Type
+db.products.find({
+      price: {
+            $type: ["number","string"]
+      }
+})
+{
+    _id: 1,
+    name: 'xPhone',
+    price: '799',
+    releaseDate: 2011-05-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 6.5,
+        cpu: 2.66
+    },
+    color: [
+        'white',
+        'black'
+    ],
+    storage: [
+        64,
+        128,
+        256
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    price: 899,
+    releaseDate: 2011-09-01T00:00:00.000Z,
+    spec: {
+        ram: 16,
+        screen: 9.5,
+        cpu: 3.66
+    },
+    color: [
+        'white',
+        'black',
+        'purple'
+    ],
+    storage: [
+        128,
+        256,
+        512
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    price: 899,
+    releaseDate: 2015-01-14T00:00:00.000Z,
+    spec: {
+        ram: 12,
+        screen: 9.7,
+        cpu: 3.66
+    },
+    color: [
+        'blue'
+    ],
+    storage: [
+        16,
+        64,
+        128
+    ]
+}
+{
+    _id: 4,
+    name: 'SmartPad',
+    price: [
+        599,
+        699,
+        799
+    ],
+    releaseDate: 2020-05-14T00:00:00.000Z,
+    spec: {
+        ram: 8,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256,
+        1024
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: [
+        '599',
+        699
+    ],
+    releaseDate: 2022-09-14T00:00:00.000Z,
+    spec: {
+        ram: 4,
+        screen: 9.7,
+        cpu: 1.66
+    },
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ],
+    storage: [
+        128,
+        256
+    ]
+}
+
+
+MongoDB $size Operator
+
+11. Drop Existing Collection
+db.products.drop()
+true
+
+
+
+12. Insert Documents for $size Operator
+db.products.insertMany([
+	{ "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate" : ISODate("2011-05-14T00:00:00Z"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66 }, "color" : [ "white", "black" ], "storage" : [ 64, 128, 256 ] },
+	{ "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate" : ISODate("2011-09-01T00:00:00Z"), "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66 }, "color" : [ "white", "black", "purple" ], "storage" : [ 128, 256, 512 ] },
+	{ "_id" : 3, "name" : "SmartTablet", "price" : 899, "releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : { "ram" : 12, "screen" : 9.7, "cpu" : 3.66 }, "color" : [ "blue" ], "storage" : [ 16, 64, 128 ] },
+	{ "_id" : 4, "name" : "SmartPad", "price" : 699, "releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec" : { "ram" : 8, "screen" : 9.7, "cpu" : 1.66 }, "color" : [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256, 1024 ] },
+	{ "_id" : 5, "name" : "SmartPhone", "price" : 599, "releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : { "ram" : 4, "screen" : 9.7, "cpu" : 1.66 }, "color" : [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256 ] },
+	{ "_id" : 6, "name" : "xWidget", "spec" : { "ram" : 64, "screen" : 9.7, "cpu" : 3.66 }, "color" : [ "black" ], "storage" : [ 1024 ] }
+])
+{
+    acknowledged: true,
+    insertedIds: {
+        '0': 1,
+        '1': 2,
+        '2': 3,
+        '3': 4,
+        '4': 5,
+        '5': 6
+    }
+}
+
+
+13. Find Documents Where color Array Size is 2
+db.products.find({
+      color: {
+            $size: 2
+      }
+}, {
+      name: 1,
+      color: 1
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    color: [
+        'white',
+        'black'
+    ]
+}
+
+
+14. Find Documents Where color Array Size is 1
+db.products.find({
+      color: {
+            $size: 1
+      }
+}, {
+      name: 1,
+      color: 1
+})
+
+{
+    _id: 3,
+    name: 'SmartTablet',
+    color: [
+        'blue'
+    ]
+}
+{
+    _id: 6,
+    name: 'xWidget',
+    color: [
+        'black'
+    ]
+}
+
+
+15. Find Documents Where color Array Size is 1 OR 2
+db.products.find({
+        $or: [
+                {
+                        color: {
+                                $size: 1
+                        }
+                },
+                {
+                        color: {
+                                $size: 2
+                        }
+                }
+        ]
+}, {
+        name: 1,
+        color: 1
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    color: [
+        'white',
+        'black'
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    color: [
+        'blue'
+    ]
+}
+{
+    _id: 6,
+    name: 'xWidget',
+    color: [
+        'black'
+    ]
+}
+
+
+MongoDB $all Operator
+
+16. Find Documents Where color Contains Both Black and White
+db.products.find({
+        color: {
+                $all: ["black", "white"]
+        }
+}, {
+        name: 1,
+        color: 1
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    color: [
+        'white',
+        'black'
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    color: [
+        'white',
+        'black',
+        'purple'
+    ]
+}
+
+
+
+MongoDB Logical Operators
+
+17. Find Documents Using $and Operator
+db.products.find({
+        $and: [
+                {color: "black"},
+                {color: "white"}
+        ]
+}, {
+        name: 1,
+        color: 1
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    color: [
+        'white',
+        'black'
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    color: [
+        'white',
+        'black',
+        'purple'
+    ]
+}
+
+
+
+18. Find Documents Using $or Operator
+db.products.find({
+        $or: [
+                {color: "black"},
+                {color: "white"}
+        ]
+}, {
+        name: 1,
+        color: 1
+})
+
+{
+    _id: 1,
+    name: 'xPhone',
+    color: [
+        'white',
+        'black'
+    ]
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    color: [
+        'white',
+        'black',
+        'purple'
+    ]
+}
+{
+    _id: 4,
+    name: 'SmartPad',
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ]
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    color: [
+        'white',
+        'orange',
+        'gold',
+        'gray'
+    ]
+}
+{
+    _id: 6,
+    name: 'xWidget',
+    color: [
+        'black'
+    ]
+}
+
+
+MongoDB $elemMatch Operator
+
+19. Find Documents Where storage Array Contains Value Less Than 128
+db.products.find({
+        storage: {
+                $elemMatch: {
+                        $lt: 128
+                }
+        }
+}, {
+        name: 1,
+        storage: 1
+});
+
+{
+    _id: 1,
+    name: 'xPhone',
+    storage: [
+        64,
+        128,
+        256
+    ]
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    storage: [
+        16,
+        64,
+        128
+    ]
+}
+
+20. Drop Existing Collection
+db.products.drop()
+true
+
+21. Insert Documents
+db.products.insertMany([
+        { "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate" : ISODate("2011-05-14T00:00:00Z"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66 }, "color" : [ "white", "black" ], "storage" : [ 64, 128, 256 ] },
+        { "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate" : ISODate("2011-09-01T00:00:00Z"), "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66 }, "color" : [ "white", "black", "purple" ], "storage" : [ 128, 256, 512 ] },
+        { "_id" : 3, "name" : "SmartTablet", "price" : 899, "releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : { "ram" : 12, "screen" : 9.7, "cpu" : 3.66 }, "color" : [ "blue" ], "storage" : [ 16, 64, 128 ] },
+        { "_id" : 4, "name" : "SmartPad", "price" : 699, "releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec" : { "ram" : 8, "screen" : 9.7, "cpu" : 1.66 }, "color" : [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256, 1024 ] },
+        { "_id" : 5, "name" : "SmartPhone", "price" : 599, "releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : { "ram" : 4, "screen" : 9.7, "cpu" : 1.66 }, "color" : [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256 ] },
+        { "_id" : 6, "name" : "xWidget", "spec" : { "ram" : 64, "screen" : 9.7, "cpu" : 3.66 }, "color" : [ "black" ], "storage" : [ 1024 ] },
+        { "_id" : 7, "name" : "xReader", "price" : null, "spec" : { "ram" : 64, "screen" : 6.7, "cpu" : 3.66 }, "color" : [ "black", "white" ], "storage" : [ 128 ] }
+])
+
+{
+    acknowledged: true,
+    insertedIds: {
+        '0': 1,
+        '1': 2,
+        '2': 3,
+        '3': 4,
+        '4': 5,
+        '5': 6,
+        '6': 7
+    }
+}
+
+MongoDB sort() Method
+
+22. Sort Documents by price in Ascending Order
+db.products.find({
+        price: {
+                $exists: 1
+        }
+}, {
+        name: 1,
+        price: 1
+}).sort({
+        price: 1
+})
+
+{
+    _id: 7,
+    name: 'xReader',
+    price: null
+}
+{
+    _id: 5,
+    name: 'SmartPhone',
+    price: 599
+}
+{
+    _id: 4,
+    name: 'SmartPad',
+    price: 699
+}
+{
+    _id: 1,
+    name: 'xPhone',
+    price: 799
+}
+{
+    _id: 2,
+    name: 'xTablet',
+    price: 899
+}
+{
+    _id: 3,
+    name: 'SmartTablet',
+    price: 899
+}
+
+
+
+
+
