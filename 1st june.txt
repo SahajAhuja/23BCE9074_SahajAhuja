@@ -1,0 +1,213 @@
+DB_Connection.java
+
+
+package CRUD;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DB_Connection {
+
+    public Connection get_connection() {
+        Connection connection = null;
+
+        try {
+            // Load MySQL Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Create Connection
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/crud",
+                    "root",
+                    "root"
+            );
+
+            System.out.println("Database Connected Successfully!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return connection;
+    }
+}
+
+CRUD_Test.java
+
+package CRUD;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class CRUD_Test {
+
+    public static void main(String[] args) {
+
+        CRUD_Test objTest = new CRUD_Test();
+
+        // INSERT
+        objTest.create_data("1", "Jinu", "jinu@gmail.com");
+        objTest.create_data("2", "Jawad", "jawad@gmail.com");
+
+        // READ
+        System.out.println("\n----- RECORDS -----");
+        objTest.read_data();
+
+        // UPDATE
+        objTest.update_data("2", "22", "Jawad2", "jawad2@gmail.com");
+
+        System.out.println("\n----- AFTER UPDATE -----");
+        objTest.read_data();
+
+        // DELETE
+        objTest.delete_data("1");
+
+        System.out.println("\n----- AFTER DELETE -----");
+        objTest.read_data();
+    }
+
+    // CREATE
+    public void create_data(String sl_no, String name, String email) {
+
+        DB_Connection db = new DB_Connection();
+        Connection connection = db.get_connection();
+
+        try {
+            String query =
+                    "INSERT INTO user(sl_no,name,email) VALUES(?,?,?)";
+
+            PreparedStatement ps =
+                    connection.prepareStatement(query);
+
+            ps.setString(1, sl_no);
+            ps.setString(2, name);
+            ps.setString(3, email);
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Record Inserted Successfully");
+            }
+
+            ps.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // READ
+    public void read_data() {
+
+        DB_Connection db = new DB_Connection();
+        Connection connection = db.get_connection();
+
+        try {
+
+            String query = "SELECT * FROM user";
+
+            PreparedStatement ps =
+                    connection.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                System.out.println(
+                        rs.getString("sl_no") + " | " +
+                        rs.getString("name") + " | " +
+                        rs.getString("email")
+                );
+            }
+
+            rs.close();
+            ps.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // UPDATE
+    public void update_data(String sl_no,
+                            String new_sl_no,
+                            String name,
+                            String email) {
+
+        DB_Connection db = new DB_Connection();
+        Connection connection = db.get_connection();
+
+        try {
+
+            String query =
+                    "UPDATE user SET sl_no=?, name=?, email=? WHERE sl_no=?";
+
+            PreparedStatement ps =
+                    connection.prepareStatement(query);
+
+            ps.setString(1, new_sl_no);
+            ps.setString(2, name);
+            ps.setString(3, email);
+            ps.setString(4, sl_no);
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Record Updated Successfully");
+            }
+
+            ps.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // DELETE
+    public void delete_data(String sl_no) {
+
+        DB_Connection db = new DB_Connection();
+        Connection connection = db.get_connection();
+
+        try {
+
+            String query =
+                    "DELETE FROM user WHERE sl_no=?";
+
+            PreparedStatement ps =
+                    connection.prepareStatement(query);
+
+            ps.setString(1, sl_no);
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Record Deleted Successfully");
+            }
+
+            ps.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+MySQL Commands
+
+
+CREATE DATABASE crud;
+
+USE crud;
+
+CREATE TABLE user(
+    sl_no INT,
+    name VARCHAR(100),
+    email VARCHAR(100)
+);
+
