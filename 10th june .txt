@@ -1,0 +1,102 @@
+// Add Shards
+sh.addShard("shard1ReplSet/localhost:27011");
+sh.addShard("shard2ReplSet/localhost:27012");
+
+// Enable Sharding
+sh.enableSharding("eCommerceDB");
+
+// Shard Collection using Hashed Shard Key
+sh.shardCollection(
+    "eCommerceDB.orders",
+    { customer_id: "hashed" }
+);
+
+// Switch Database
+db = db.getSiblingDB("eCommerceDB");
+
+// Insert Sample Data
+for (let i = 0; i < 1000; i++) {
+    db.orders.insertOne({
+        customer_id: "cust_" + i,
+        amount: Math.floor(Math.random() * 1000),
+        status: "Pending"
+    });
+}
+
+// Verify Data
+print("Total Documents:");
+print(db.orders.countDocuments());
+
+// Display Shard Distribution
+print("\nShard Distribution:");
+db.orders.getShardDistribution();
+
+// Display Cluster Status
+print("\nCluster Status:");
+sh.status();
+
+
+Run the Script
+"C:\Program Files\MongoDB\Server\4.4\bin\mongosh.exe" --port 27017 sharding_setup.js
+
+
+
+OUTPUT
+{
+  shardAdded: "shard1ReplSet",
+  ok: 1
+}
+
+{
+  shardAdded: "shard2ReplSet",
+  ok: 1
+}
+
+{
+  ok: 1
+}
+
+{
+  collectionsharded: "eCommerceDB.orders",
+  ok: 1
+}
+
+Total Documents:
+1000
+
+Shard Distribution:
+
+Shard shard1ReplSet at shard1ReplSet/localhost:27011
+ data : 48KiB docs : 497 chunks : 1
+
+Shard shard2ReplSet at shard2ReplSet/localhost:27012
+ data : 49KiB docs : 503 chunks : 1
+
+Totals
+ data : 97KiB docs : 1000 chunks : 2
+
+
+Cluster Status:
+--- Sharding Status ---
+  sharding version: {
+    "_id" : 1,
+    "clusterId" : ObjectId("...")
+  }
+
+  shards:
+    { "_id" : "shard1ReplSet", "host" : "shard1ReplSet/localhost:27011" }
+    { "_id" : "shard2ReplSet", "host" : "shard2ReplSet/localhost:27012" }
+
+  databases:
+    {
+      "_id" : "eCommerceDB",
+      "primary" : "shard1ReplSet",
+      "partitioned" : true
+    }
+
+  eCommerceDB.orders
+    shard key:
+      { "customer_id" : "hashed" }
+    chunks:
+      shard1ReplSet 1
+      shard2ReplSet 1
