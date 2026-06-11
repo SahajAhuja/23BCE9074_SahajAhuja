@@ -1,0 +1,146 @@
+MongoDB Sharding Lab – Complete Steps
+A. Before Starting
+1. Stop Normal MongoDB Service
+Open CMD as Administrator:
+net stop MongoDB
+Verify:
+sc query MongoDB
+Expected:
+STATE : 1 STOPPED
+
+B. Create Fresh Directories
+(Optional: delete old sharding folders first)
+mkdir C:\sharding
+mkdir C:\sharding\config
+mkdir C:\sharding\shard1
+mkdir C:\sharding\shard2
+
+C. Start Config Server
+Open CMD Window #1
+"C:\Program Files\MongoDB\Server\8.3\bin\mongod.exe" --configsvr --replSet configReplSet --dbpath C:\sharding\config --port 27019
+Leave window open.
+
+D. Initialize Config Replica Set
+Connect using Compass:
+mongodb://127.0.0.1:27019/?directConnection=true
+Open shell and run:
+rs.initiate({
+  _id: "configReplSet",
+  configsvr: true,
+  members: [
+    { _id: 0, host: "localhost:27019" }
+  ]
+})
+Verify:
+rs.status()
+
+E. Start Shard 1
+Open CMD Window #2
+"C:\Program Files\MongoDB\Server\8.3\bin\mongod.exe" --shardsvr --replSet shard1ReplSet --dbpath C:\sharding\shard1 --port 27011
+
+F. Initialize Shard 1
+Connect:
+mongodb://127.0.0.1:27011/?directConnection=true
+Run:
+rs.initiate({
+  _id: "shard1ReplSet",
+  members: [
+    { _id: 0, host: "localhost:27011" }
+  ]
+})
+
+G. Start Shard 2
+Open CMD Window #3
+"C:\Program Files\MongoDB\Server\8.3\bin\mongod.exe" --shardsvr --replSet shard2ReplSet --dbpath C:\sharding\shard2 --port 27012
+
+H. Initialize Shard 2
+Connect:
+mongodb://127.0.0.1:27012/?directConnection=true
+Run:
+rs.initiate({
+  _id: "shard2ReplSet",
+  members: [
+    { _id: 0, host: "localhost:27012" }
+  ]
+})
+
+I. Start mongos Router
+Open CMD Window #4
+"C:\Program Files\MongoDB\Server\8.3\bin\mongos.exe" --configdb configReplSet/localhost:27019 --port 27017
+Leave running.
+
+J. Connect to mongos
+Compass:
+mongodb://127.0.0.1:27017
+
+K. Add Shards
+Run:
+sh.addShard("shard1ReplSet/localhost:27011")
+sh.addShard("shard2ReplSet/localhost:27012")
+Verify:
+sh.status()
+
+L. Enable Sharding
+sh.enableSharding("eCommerceDB")
+
+M. Shard Collection
+sh.shardCollection(
+  "eCommerceDB.orders",
+  { customer_id: "hashed" }
+)
+
+N. Insert Test Data
+use eCommerceDB
+for(let i=0;i<1000;i++){
+  db.orders.insertOne({
+    customer_id:"cust_"+i,
+    amount:Math.random()*100
+  })
+}
+
+O. Verify Distribution
+Check:
+sh.status()
+or
+db.orders.getShardDistribution()
+Expected:
+Shard1 ≈ 50%
+Shard2 ≈ 50%
+
+Shutdown Procedure
+1. Stop mongos
+In Window #4:
+Ctrl + C
+
+2. Stop Shard 1
+In Window #2:
+Ctrl + C
+
+3. Stop Shard 2
+In Window #3:
+Ctrl + C
+
+4. Stop Config Server
+In Window #1:
+Ctrl + C
+
+5. Verify All Stopped
+netstat -ano | findstr 27017
+netstat -ano | findstr 27019
+netstat -ano | findstr 27011
+netstat -ano | findstr 27012
+No LISTENING entries should remain.
+
+Return to Normal MongoDB
+Start the Windows service again:
+net start MongoDB
+Verify:
+sc query MongoDB
+Expected:
+STATE : 4 RUNNING
+Check:
+netstat -ano | findstr 27017
+Expected:
+LISTENING
+Compass can now connect normally to:
+mongodb://localhost:27017
